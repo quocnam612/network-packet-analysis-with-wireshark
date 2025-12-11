@@ -1,0 +1,52 @@
+\section{Part 2: Analyzing DHCP Traffic (3.5 pt)}
+
+\subsection{Were any ARP packets sent or received during the DHCP packet-exchange period? If so, explain the purpose of those ARP packets}
+
+
+
+
+
+
+\subsection{A host uses DHCP to obtain an IP address, among other configuration parameters. However, the host’s IP address is not finalized until the completion of the four-message DHCP exchange. If the IP address is not assigned until the final message, what IP address values are used in the IP datagrams that carry these messages?}
+
+
+
+
+
+
+
+
+\subsection{If, after receiving the ACK, the client sent an ARP probe for this new IP but received an ARP Reply from another device, what specific action is the client required to take according to the DHCP standard (RFC 2131)}
+
+
+
+
+
+
+
+
+
+\subsection{Why does the DHCP Request message still use UDP Port 68 as the source port and UDP Port 67 as the destination port, even though a unique, high-numbered ephemeral port could technically be used? Explain how UDP's connectionless nature makes this fixed port usage simple and robust.}
+
+
+
+
+
+
+
+
+\subsection{UDP checksum}
+
+\subsubsection{In the DHCP Discover packet, expand the User Datagram Protocol (UDP) layer and examine the Checksum field. Does Wireshark display the message "[UDP checksum is good]" or "[UDP checksum is incorrect]"?}
+
+
+
+
+
+
+\subsubsection{If the checksum had been calculated as incorrect, what action would the recipient's Transport Layer (UDP handler) have immediately taken, and why would this lead the DHCP process to stall?}
+
+
+
+
+
