@@ -135,18 +135,13 @@ arp && frame.time_relative >= 34.055350 && frame.time_relative <= 34.579622\end{
 \subsubsection{If the checksum had been calculated as incorrect, what action would the recipient's Transport Layer (UDP handler) have immediately taken, and why would this lead the DHCP process to stall?}
 
 \begin{itemize}
-    \item[-] UDP handler sẽ:
+    \item[-] Nếu checksum UDP được tính là incorrect → gói tin bị coi là corrupted, UDP handler ở phía nhận sẽ ngay lập tức loại bỏ gói tin đó và không chuyển payload lên tầng ứng dụng (DHCP).
+    \item[-] DHCP stall vì client không nhận Offer hoặc ACK: DHCP dựa vào chuỗi 4 gói Discover – Offer – Request – ACK. Nếu một gói bị drop thì quá trình sẽ không thể tiếp tục và chờ timeout.:
     \begin{itemize}
-        \item[$\bullet$] Loại bỏ gói (drop silently): UDP không tự sửa lỗi, không retransmission. Nó chỉ kiểm tra checksum → nếu sai → discard.
-        \item[$\bullet$] DHCP stall vì client không nhận Offer hoặc ACK: DHCP dựa vào chuỗi 4 gói BOOTP (Discover–Offer–Request–ACK). Nếu một gói bị drop:
-        \begin{itemize}
-            \item[$\circ$] Client không nhận Offer → phải timeout và gửi Discover lại.
-            \item[$\circ$] Server không nhận Request → không cấp IP
-            \item[$\circ$] Toàn bộ chu trình DHCP dừng hoặc timeout (30–60 giây)
-        \end{itemize}
-        \item[$\bullet$] DHCP không có cơ chế “retry nhanh” vì UDP không đảm bảo delivery.
+        \item[$\bullet$] Client không nhận Offer → server không thấy client → phải timeout và gửi Discover lại.
+        \item[$\bullet$] DHCP Offer bị drop → client không biết có server
+        \item[$\bullet$] Server không nhận Request → không cấp IP
+        \item[$\bullet$] DHCP ACK bị drop → client không hoàn tất cấp IP
     \end{itemize}
+    \item[-] Trong khoảng thời gian đó, DHCP bị stall.
 \end{itemize}
-
-
-
