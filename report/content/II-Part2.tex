@@ -6,7 +6,7 @@
     \item[-] Xác định khoảng thời gian trao đổi DHCP, bằng cách lọc các gói tin DHCP trong Wireshark:
     \begin{figure}[H]
         \centering
-        \includegraphics[width=0.8\textwidth]{img/2-cau1-1.png}
+        \includegraphics[width=0.9\textwidth]{img/2-cau1-1.png}
         \caption{Lọc các gói tin DHCP trong Wireshark}
     \end{figure}
     \item[-] Có thể thấy khoảng thời gian trao đổi DHCP (DHCP Discover → DHCP ACK) là:
@@ -21,7 +21,7 @@
 arp && frame.time_relative >= 14.265823 && frame.time_relative <= 14.896409\end{lstlisting}
         \begin{figure}[H]
             \centering
-            \includegraphics[width=0.8\textwidth]{img/2-cau1-2.png}
+            \includegraphics[width=0.9\textwidth]{img/2-cau1-2.png}
             \caption{Các gói tin ARP trong DHCP Exchange 1}
         \end{figure}
         \item[$\bullet$] ARP trong DHCP Exchange 2:
@@ -29,7 +29,7 @@ arp && frame.time_relative >= 14.265823 && frame.time_relative <= 14.896409\end{
 arp && frame.time_relative >= 34.055350 && frame.time_relative <= 34.579622\end{lstlisting}
         \begin{figure}[H]
             \centering
-            \includegraphics[width=0.8\textwidth]{img/2-cau1-3.png}
+            \includegraphics[width=0.9\textwidth]{img/2-cau1-3.png}
             \caption{Các gói tin ARP trong DHCP Exchange 2}
         \end{figure}
     \end{itemize}
@@ -47,65 +47,89 @@ arp && frame.time_relative >= 34.055350 && frame.time_relative <= 34.579622\end{
 
 \begin{table}[H]
     \centering
-    \begin{tabular}{|l|l|p{3.5cm}|p{6cm}|}
+    \begin{tabular}{|l|c|p{3.5cm}|p{6cm}|}
         \hline
-        \textbf{DHCP Message} & \textbf{Source IP} & \textbf{Destination IP} & \textbf{Giải thích} \\
+        \multicolumn{1}{|c|}{\textbf{DHCP Message}} & \multicolumn{1}{c|}{\textbf{Source IP}} & \multicolumn{1}{c|}{\textbf{Destination IP}} & \multicolumn{1}{c|}{\textbf{Giải thích}} \\
         \hline
-        DHCP Discover & 0.0.0.0 & 255.255.255.255 & Client chưa có IP nên dùng địa chỉ không xác định (0.0.0.0) và gửi broadcast để tìm DHCP server. \\
+        DHCP Discover & \texttt{0.0.0.0} & \texttt{255.255.255.255} & Client chưa có IP nên dùng địa chỉ không xác định (\texttt{0.0.0.0}) và gửi broadcast để tìm DHCP server. \\
         \hline
-        DHCP Offer & IP của DHCP server & 255.255.255.255 & Server trả lời bằng broadcast vì client chưa thể nhận unicast. \\
+        DHCP Offer & IP của DHCP server & \texttt{255.255.255.255} hoặc unicast & Server trả lời bằng broadcast vì client chưa thể nhận unicast. \\
         \hline
-        DHCP Request & 0.0.0.0 & 255.255.255.255 & Client vẫn chưa được cấp IP chính thức, gửi broadcast để chấp nhận địa chỉ đề nghị. \\
+        DHCP Request & \texttt{0.0.0.0} & \texttt{255.255.255.255} & Client vẫn chưa được cấp IP chính thức, gửi broadcast để chấp nhận địa chỉ đề nghị. \\
         \hline
-        DHCP ACK & IP của DHCP server & 255.255.255.255 (hoặc unicast) & Server xác nhận cấp IP; client chỉ sử dụng IP sau khi nhận ACK. \\
+        DHCP ACK & IP của DHCP server & \texttt{255.255.255.255} hoặc unicast & Server xác nhận cấp IP; client chỉ sử dụng IP sau khi nhận ACK. \\
         \hline
     \end{tabular}
     \caption{Bảng địa chỉ IP dùng trong 4 thông điệp DHCP}
 \end{table}
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{img/2-cau2.png}
+    \caption{Địa chỉ IP trong các gói tin DHCP}
+\end{figure}
+
 \begin{itemize}
     \item[-] Trong suốt quá trình DHCP, client chưa được phép sử dụng địa chỉ IP được đề nghị cho đến khi nhận DHCP ACK.
-    \item[-] Vì vậy, trong DHCP Discover và DHCP Request, client không thể dùng IP riêng và bắt buộc dùng source IP = 0.0.0.0
-    \item[-] Các gói DHCP được gửi dưới dạng broadcast (255.255.255.255) để đảm bảo DHCP server nhận được và client có thể nhận phản hồi dù chưa có IP hợp lệ
+    \item[-] Vì vậy, trong DHCP Discover và DHCP Request, client không thể dùng IP riêng và bắt buộc dùng source IP = \texttt{0.0.0.0}
+    \item[-] Các gói DHCP được gửi dưới dạng broadcast (\texttt{255.255.255.255}) để đảm bảo DHCP server nhận được và client có thể nhận phản hồi dù chưa có IP hợp lệ
     \item [-] Chỉ sau khi DHCP ACK được nhận, client mới gán IP được cấp vào interface và bắt đầu gửi các gói IP thông thường (ARP, ICMP, TCP, UDP…).
 \end{itemize}
 
 \subsection{If, after receiving the ACK, the client sent an ARP probe for this new IP but received an ARP Reply from another device, what specific action is the client required to take according to the DHCP standard (RFC 2131)}
 
 \begin{itemize}
-    \item[-] Client phải hủy IP vừa được cấp (decline) và gửi DHCPDECLINE cho server.
+    \item[-] Sau khi nhận DHCP ACK, client chưa sử dụng ngay IP mà phải thực hiện ARP Probe để kiểm tra trùng IP (Duplicate Address Detection).
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.9\textwidth]{img/2-cau3.png}
+        \caption{ARP Probe sau khi nhận DHCP ACK}
+    \end{figure}
     \item[-] Theo RFC 2131:
+    \begin{quote}
+\textit{"Nếu client phát hiện địa chỉ IP đã được sử dụng, client PHẢI gửi thông báo DHCPDECLINE đến máy chủ và khởi động lại quá trình cấu hình."}\end{quote}
     \begin{itemize}
-        \item[$\bullet$] nếu ARP probe trả về reply → IP bị xung đột
-        \item[$\bullet$] client phải báo DHCPDECLINE
-        \item[$\bullet$] sau đó quay lại trạng thái INIT và bắt đầu lại quá trình DHCP Discover.
+        \item[$\bullet$] Nếu ARP probe trả về reply → IP bị xung đột
+        \item[$\bullet$] Client phải báo DHCPDECLINE
+        \item[$\bullet$] Sau đó quay lại trạng thái INIT và bắt đầu lại quá trình DHCP Discover.
     \end{itemize}
 \end{itemize}
 
 \subsection{Why does the DHCP Request message still use UDP Port 68 as the source port and UDP Port 67 as the destination port, even though a unique, high-numbered ephemeral port could technically be used? Explain how UDP's connectionless nature makes this fixed port usage simple and robust.}
 
 \begin{itemize}
-    \item[-] UDP là connectionless → không cần thiết lập phiên: DHCP hoạt động ngay cả khi host chưa có IP, chưa có routing, chưa có state. Port cố định đảm bảo mọi thiết bị đều biết nơi gửi và nhận frame.
-    \item[-] Chuẩn hóa để tất cả DHCP server/relay có thể hoạt động thống nhất
+    \item[-] Nếu sử dụng port ngẫu nhiên (ephemeral port) cho DHCP Request:
     \begin{itemize}
-        \item[$\bullet$] Client luôn gửi từ port 68
-        \item[$\bullet$] Server luôn lắng nghe tại port 67
+        \item[$\bullet$] Trong DHCP Request: server sẽ không biết gửi phản hồi (DHCP ACK) về đâu, vì client chưa có IP hợp lệ để định tuyến.
+        \item[$\bullet$] Không có cơ chế bắt tay (handshake) để ghi nhớ trạng thái, UDP không duy trì state giữa client và server.
     \end{itemize}
-    \item[-] Relay Agent (DHCP Relay) cần port cố định: Các router chuyển tiếp DHCP cần biết chính xác port để forward.
-    \item[-] Loại bỏ lỗi tương thích: Nếu dùng port ngẫu nhiên → server không biết nên gửi ACK về đâu.
+    \item[-] Sử dụng các cổng UDP cố định giúp DHCP server và relay agent luôn biết chính xác nơi gửi (port 68) và nơi nhận (port 67) thông điệp, bất kể client đang ở trạng thái nào.
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.7\textwidth]{img/2-cau4.png}
+        \caption{Cổng UDP cố định trong DHCP}
+    \end{figure}
+    \item[-] UDP là giao thức:
+    \begin{itemize}
+        \item[$\bullet$] Không kết nối (connectionless) $\rightarrow$ mỗi gói tin được xử lý độc lập và tự mang đầy đủ thông tin cần thiết, không phụ thuộc vào trạng thái hay phiên trước đó.
+        \item[$\bullet$] Không duy trì trạng thái phiên làm việc. $\rightarrow$ server không cần ghi nhớ thông tin phiên của client, cho phép xử lý các DHCP message một cách đơn giản và hiệu quả.
+        \item[$\bullet$] Không đảm bảo thứ tự $\rightarrow$ client có thể chủ động gửi lại DHCP Request nếu không nhận được phản hồi, giúp cơ chế DHCP linh hoạt và chịu lỗi tốt hơn trong môi trường broadcast.
+    \end{itemize}
 \end{itemize}
 
 \subsection{UDP checksum}
 
 \subsubsection{In the DHCP Discover packet, expand the User Datagram Protocol (UDP) layer and examine the Checksum field. Does Wireshark display the message "[UDP checksum is good]" or "[UDP checksum is incorrect]"?}
 
+
 \begin{itemize}
-    \item[-] Trong Windows và Linux, Wireshark thường hiển thị:
-"[UDP checksum is good]"
-hoặc
-"Checksum validation disabled for UDP" (tùy OS checksum offloading)
-Dựa trên screenshot của bạn, gói không có lỗi → checksum GOOD.
-    \item[-] 
+    \item[-] Chọn một gói DHCP Discover trong Wireshark, mở rộng lớp User Datagram Protocol (UDP) và kiểm tra trường Checksum.
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.7\textwidth]{img/2-cau5-1.png}
+        \caption{UDP Checksum Field in DHCP Discover Packet}
+    \end{figure}
+    \item[-] Có thấy trường Checksum hiển thị thông báo \texttt{[correct]}.
 \end{itemize}
 
 \subsubsection{If the checksum had been calculated as incorrect, what action would the recipient's Transport Layer (UDP handler) have immediately taken, and why would this lead the DHCP process to stall?}

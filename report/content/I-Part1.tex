@@ -20,7 +20,7 @@ http.request.method == "GET"\end{lstlisting}
     \renewcommand{\arraystretch}{1.3}
     \begin{tabular}{|c|c|c|p{11cm}|}
         \hline
-        \textbf{STT} & \textbf{Dòng} & \textbf{Địa chỉ IP đích} & \textbf{Thông tin} \\
+        \multicolumn{1}{|c|}{\textbf{STT}} & \multicolumn{1}{c|}{\textbf{Dòng}} & \multicolumn{1}{c|}{\textbf{Địa chỉ IP đích}} & \multicolumn{1}{c|}{\textbf{Thông tin}} \\
         \hline
         1 & 154 & 128.119.245.12 & GET /wireshark-labs/HTTP-wireshark-file4.html HTTP/1.1 \\
         \hline
@@ -48,7 +48,7 @@ http.request.method == "GET"\end{lstlisting}
         \renewcommand{\arraystretch}{1.3}
         \begin{tabular}{|c|c|c|c|c|}
             \hline
-            \textbf{STT} & \textbf{Dòng} & \textbf{Time} & \textbf{Địa chỉ IP đích} & \textbf{File} \\
+            \multicolumn{1}{|c|}{\textbf{STT}} & \multicolumn{1}{c|}{\textbf{Dòng}} & \multicolumn{1}{c|}{\textbf{Time}} & \multicolumn{1}{c|}{\textbf{Địa chỉ IP đích}} & \multicolumn{1}{c|}{\textbf{File}} \\
             \hline
             1 & 165 & 11.729697 & 128.119.245.12 & pearson.png \\
             \hline
@@ -138,7 +138,7 @@ http.request.method == "GET"\end{lstlisting}
     \renewcommand{\arraystretch}{1.3}
     \begin{tabular}{|c|c|c|c|c|c|}
     \hline
-    \textbf{STT} & \textbf{Dòng} & \textbf{Source} & \textbf{Destination} & \textbf{Source $\rightarrow$ Destination} & \textbf{TCP Flags} \\
+    \multicolumn{1}{|c|}{\textbf{STT}} & \multicolumn{1}{c|}{\textbf{Dòng}} & \multicolumn{1}{c|}{\textbf{Source}} & \multicolumn{1}{c|}{\textbf{Destination}} & \multicolumn{1}{c|}{\textbf{Source $\rightarrow$ Destination}} & \multicolumn{1}{c|}{\textbf{TCP Flags}} \\
     \hline
     Gói 1 & 146 & 10.0.231.26 & 128.119.245.12 & Client $\rightarrow$ Server & SYN \\
     \hline
@@ -170,7 +170,7 @@ tcp.stream == 6\end{lstlisting}
     \renewcommand{\arraystretch}{1.3}
     \begin{tabular}{|c|c|c|c|c|c|}
     \hline
-    \textbf{STT} & \textbf{Dòng} & \textbf{Source} & \textbf{Destination} & \textbf{TCP Segment Len} & \textbf{TCP Flags} \\
+    \multicolumn{1}{|c|}{\textbf{STT}} & \multicolumn{1}{c|}{\textbf{Dòng}} & \multicolumn{1}{c|}{\textbf{Source}} & \multicolumn{1}{c|}{\textbf{Destination}} & \multicolumn{1}{c|}{\textbf{TCP Segment Len}} & \multicolumn{1}{c|}{\textbf{TCP Flags}} \\
     \hline
     1 & 513 & 2.56.99.24 & 10.0.231.26 & 20160 & PHS, ACK \\
     \hline
