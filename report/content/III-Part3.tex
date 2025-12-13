@@ -66,18 +66,18 @@ dns and ip.addr == 8.8.8.8\end{lstlisting}
 \subsection{Find the MAC Address of your local router/gateway (either by using arp -a in the command prompt or by finding the MAC address associated with the Gateway IP in your capture)}
 
 \begin{itemize}
-    \item[-] MAC Address : 54-04-63-2f-d7-6c
+    \item[-] Địa chỉ MAC của router/gateway : 54-04-63-2f-d7-6c
     \item[-] Địa chỉ MAC hiện thị qua Wireshark:
     \begin{figure}[H]
         \centering
         \includegraphics[width=0.6\textwidth]{img/3-cau3-1.png}
-        \caption{MAC Address trong Ethernet Header của DNS Query}
+        \caption{Địa chỉ MAC trong Ethernet Header của DNS Query}
     \end{figure}
     \item[-] Tìm địa chỉ MAC hiện thị qua command prompt: ( địa chỉ IP đầu tiên trong bảng)
     \begin{figure}[H]
         \centering
         \includegraphics[width=0.6\textwidth]{img/3-cau3-2.png}
-        \caption{MAC Address trong Command Prompt}
+        \caption{Địa chỉ MAC trong Command Prompt}
     \end{figure}
 \end{itemize}
 
@@ -85,9 +85,11 @@ dns and ip.addr == 8.8.8.8\end{lstlisting}
 
 \subsubsection{What are the Source and Destination addresses in the Link Layer header (Ethernet or 802.11)?}
 
+\item[-] Địa chỉ của nguồn và đích trong tiêu đề của tầng Link được hiển thị dưới dạng địa chỉ MAC:
+
 \begin{itemize}
-    \item[-] Source address :48:e7:da:a9:98:3b
-    \item[-] Destination address: 54:04:63:2f:d7:6c
+    \item[$.$] Địa chỉ nguồn: 48:e7:da:a9:98:3b
+    \item[$.$] Địa chỉ đích: 54:04:63:2f:d7:6c
     \begin{figure}[H]
         \centering
         \includegraphics[width=0.8\textwidth]{img/3-cau4.png}
@@ -104,7 +106,7 @@ dns and ip.addr == 8.8.8.8\end{lstlisting}
         \hline
         \multicolumn{1}{|c|}{\textbf{Đặc điểm}} & \multicolumn{1}{c|}{\textbf{Địa chỉ MAC}} & \multicolumn{1}{c|}{\textbf{Địa chỉ IP}} \\
         \hline
-        Tầng mạng & Tầng 2 - Data Link (TCP/IP) & Tầng 3 - Network (OSI) \\
+        Tầng mạng & Tầng 2 - Data Link (OSI) & Tầng Network (TCP/IP) \\
         \hline
         Tính chất & Được mã hoá cứng vào card mạng & Được gán động hoặc tĩnh thông qua cấu hình phần mềm. \\
         \hline
@@ -121,7 +123,7 @@ dns and ip.addr == 8.8.8.8\end{lstlisting}
 
 \subsection{Examine the Link Layer header (Ethernet II or similar). What is the Type field's value, and what does it tell the receiving device (your router/gateway) about the protocol that follows?}
 
-\subsection{Giá trị của trường Type là gì?}
+\subsubsection{What is the Type field's value}
 
 \begin{itemize}
     \begin{figure}[H]
@@ -132,7 +134,7 @@ dns and ip.addr == 8.8.8.8\end{lstlisting}
     \item[-] Giá trị của trường Type là: 0x0800
 \end{itemize}
 
-\subsection{Ý nghĩa của Trường Type với thiết bị nhận (gateway/router)}
+\subsubsection{What does it tell the receiving device (your router/gateway) about the protocol that follows}
 
 \begin{itemize}
     \item[-] Quyết định giao thức cho tầng trên : Trường Type cho Router biết loại giao thức nào được đóng gói bên trong phần Dữ liệu (Payload) của khung Ethernet.
